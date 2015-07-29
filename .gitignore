@@ -1,0 +1,6 @@
+*.pyc
+*.swp
+
+
+*.xml
+local_settings.py
