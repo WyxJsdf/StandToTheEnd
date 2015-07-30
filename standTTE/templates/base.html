@@ -5,9 +5,18 @@
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/static/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
     <link href="/static/css/base.css" rel="stylesheet">
+    <link href="/static/bootstrap-table/bootstrap-editable.css" rel="stylesheet">
+    <link href="/static/bootstrap-table/bootstrap-table.css" rel="stylesheet">
+
     <script type="text/javascript" src="/static/js/jquery-1.11.3.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.editable-select.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootbox.min.js"></script>
     <script type="text/javascript" src="/static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="/static/bootstrap/js/npm.js"></script>
+    <script type="text/javascript" src="/static/bootstrap-table/bootstrap-editable.js"></script>
+    <script type="text/javascript" src="/static/bootstrap-table/bootstrap-table-editable.js"></script>
+    <script type="text/javascript" src="/static/bootstrap-table/bootstrap-table.js"></script>
+
     {% block css_js %}{% endblock %}
 </head>
 
@@ -27,7 +36,7 @@
                 <a class="navbar-brand" href="#">一站到底</a>
             </div>
 
-{#            {% if user.is_authenticated %}#}
+            {% if user.is_authenticated %}
             <form class="navbar-form navbar-left" role="search">
                 {% csrf_token %}
                 <div class="form-group">
@@ -35,32 +44,32 @@
                 </div>
                 <button type="submit" class="btn btn-default">搜索</button>
             </form>
-{#            {% endif %}#}
+            {% endif %}
 
-{#            {% if user.is_authenticated %}#}
+            {% if user.is_authenticated %}
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span> </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">我的账户</a> </li>
+                            <li><a href="/profile/">我的账户</a> </li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">所有用户</a> </li>
+                            <li><a href="/all_user/">好友列表</a> </li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">游戏信息</a> </li>
-                            <li role="separator" class="divider"></li>
-{#                            {% if user.is_staff %}#}
+                            {% if user.is_staff %}
                             <li><a href="#">用户管理</a> </li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">游戏管理</a> </li>
                             <li role="separator" class="divider"></li>
                             <li><a href="#">题库管理</a> </li>
                             <li role="separator" class="divider"></li>
-{#                            {% endif %}#}
+                            {% endif %}
                             <li><a href="#">退出</a> </li>
                         </ul>
                     </li>
                 </ul>
             </div>
-{#            {% endif %}#}
+            {% endif %}
 
         </div>
     </nav>

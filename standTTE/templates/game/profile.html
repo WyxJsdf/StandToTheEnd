@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}一站到底{% endblock %}
+{% block title %}
+    一站到底-我的账户
+{% endblock %}
 
 {% block css_js %}
-
+    <link rel="stylesheet" href="/static/css/profile.css">
 {% endblock %}
 
 {% block content %}
@@ -15,22 +17,148 @@
                     <a href="#personal-info" data-toggle="tab">个人信息</a>
                 </li>
                 <li role="presentation">
-                    <a href="#modify-info" data-toggle="tab">修改信息</a>
+                    <a href="#modify-info" data-toggle="tab">修改密码</a>
+                </li>
+                <li role="presentation">
+                    <a href="#game-info" data-toggle="tab">游戏信息</a>
                 </li>
             </ul>
-            <div class="col-md-offset-2 col-lg-offset-2 col-md-10 col-lg-10">
-                <div class="tab-pane active" id="personal-info">
-                    <form action="#" method="post" role="form">
+
+            <div class="tab-content col-md-offset-1 col-lg-offset-1 col-md-10 col-lg-10">
+                <div class="tab-pane active row" id="personal-info">
+                    <div class="col-md-3 col-lg-3">
+                        {% if not user.staff %}
+                        <img src="{{ src }}" alt="Responsive image" class="img-circle">
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-9 col-lg-9">
+                        <form action="#" method="post" role="form" class="form-horizontal">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="username" class="col-sm-3 control-label">用户名:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="username" name="username" value="{{ player.user.username }}">
+                                </div>
+                            </div>
+                            {% if not user.staff %}
+                            <div class="form-group">
+                                <label for="nickname" class="col-sm-3 control-label">昵称:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="nickname" name="nickname" value="{{ player.nickname }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="signature" class="col-sm-3 control-label">个性签名:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="signature" name="signature" value="{{ player.signature }}">
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="form-group">
+                                <label for="email" class="col-sm-3 control-label">邮箱:</label>
+                                <div class="col-sm-9">
+                                    <input type="email" class="form-control" id="email" name="email" value="{{ player.user.email }}">
+                                </div>
+                            </div>
+                            {% if not user.staff %}
+                            <div class="form-group">
+                                <label for="picture" class="col-sm-3 control-label">修改头像:</label>
+                                <div class="col-sm-9">
+                                    <input type="file" class="form-control" id="picture" name="picture">
+                                </div>
+                            </div>
+                            {% endif %}
+                            <button type="submit" class="btn btn-default">保存</button>
+                        </form>
+                    </div>
+                </div>
+            
+                <div class="tab-pane col-md-offset-1 col-lg-offset-1 col-md-10 col-lg-10" id="modify-info">
+                    <form id="account_form" role="form" class="form-horizontal">
                         {% csrf_token %}
                         <div class="form-group">
-                            <label for="username">用户名</label>
-                            <input type="text" class="form-control" id="username" name="username">
+                            <label for="old_password" class="col-sm-3 control-label">旧密码:</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" id="old_password" name="old_password">
+                            </div>
                         </div>
-                        <div class=""
+                        <div class="form-group">
+                            <label for="new_password" class="col-sm-3 control-label">新密码:</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" id="new_password" name="new_password" placeholder="密码长度不少于6位">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="re_password" class="col-sm-3 control-label">确认密码:</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" id="re_password" name="re_password" placeholder="密码长度不少于6位">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-default" id="btn_submit_account">保存</button>
                     </form>
                 </div>
+
+                <div class="tab-pane col-md-offset-1 col-lg-offset-1 col-md-8 col-lg-10" id="game-info">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6">
+                            <label>积分：{{ user.integration }}</label>
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                            <label>排名：{{ rank }}</label>
+                        </div>
+                        <div class="col-md-12 col-lg-12">
+                            <label>参加过的游戏:</label>
+                        </div>
+                        <div class="col-md-12 col-lg-12">
+                            <table class="table table-striped table-hover" data-pagination="true" data-search="true" data-toggle="table" align="center">
+                                <thead>
+                                    <tr>
+                                        <th data-align="center" data-valign="middle" data-field="detail">详情</th>
+                                        <th data-align="center" data-valign="middle" data-sortable="true" data-editable="false" data-field="game_id">游戏ID</th>
+                                        <th data-align="center" data-valign="middle" data-sortable="false" data-editable="false" data-field="game_topic">游戏主题</th>
+                                        <th data-align="center" data-valign="middle" data-sortable="true" data-editable="false" data-field="game_players">参与人数</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for game in games %}
+                                        <tr>
+                                            <td><a href="/.../{{ game.id }}">详情</a></td>
+                                            <td>{{ game.id }}</td>
+                                            <td>{{ game.topic }}</td>
+                                            <td>{{ game.num_players }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+<script>
+$('#btn_submit_account').click(function(){
+    $.ajax({
+        type: 'POST',
+        url: '#',
+        data: $('#account_form').serialize(),
+        success: function(msg){
+            bootbox.alert({
+                size: 'small',
+                message: msg,
+            });
+        },
+        error: function(){
+            bootbox.alert({
+                size: 'small',
+                message: '修改失败！'
+            });
+        }
+    });
+});
+</script>
 {% endblock %}
