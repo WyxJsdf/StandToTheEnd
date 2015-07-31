@@ -86,11 +86,11 @@ WSGI_APPLICATION = 'standTTE.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'NAME': 'game',
+        'USER': 'root',
+        'PASSWORD': 'wyx19950621',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 

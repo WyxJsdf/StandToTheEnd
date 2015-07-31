@@ -18,6 +18,11 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    # url(r'^message/$', 'game.views.upload'),
 
-    url(r'^$', 'game.views.hello'),
+    url(r'^$', 'game.views.login'),
+    url(r'^register/$', 'game.views.register'),
+    url(r'^logout/$', 'game.views.logout'),
+    url(r'change_password/$','game.views.change_password'),
+    url(r'^gamehall/$', 'game.views.myUserInfo'),
 ]
